@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>List</title>
+    <th:block th:replace="/admin/layout/head :: head" />
+</head>
+<body class="animsition">
+<div class="page-wrapper">
+    <!-- HEADER MOBILE-->
+    <th:block th:replace="/admin/layout/header_mobile :: header_mobile" />
+
+    <!-- MENU SIDEBAR-->
+    <th:block th:replace="/admin/layout/sidebar :: sidebar" />
+
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+        <!-- HEADER DESKTOP-->
+        <th:block th:replace="/admin/layout/header_desktop :: header_desktop" />
+        <!-- HEADER DESKTOP-->
+
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-6">
+                            <h1>Create new book</h1>
+                        </div>
+                        <div class="col-6">
+                            <a href="/books">
+                                <button type="button" class="btn btn-danger">Book List</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="book-form">
+                        <form th:object="${bookDTO}" method="post" th:action="@{/books/create}" >
+                            <div class="row">
+                                <div class="col-9">
+                                    <label class="form-label"><strong>Name</strong></label>
+                                    <input type="text" class="form-control" th:field="*{name}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <label class="form-label"><strong>Author</strong></label>
+                                    <select class="form-control" th:field="*{author}">
+                                        <option th:each="author : ${authorList}"
+                                                th:value="${author.id}"
+                                                th:utext="${author.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label"><strong>Genre</strong></label>
+                                    <select class="form-control" th:field="*{genre}">
+                                        <option th:each="genre : ${genreList}"
+                                                th:value="${genre.id}"
+                                                th:utext="${genre.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label"><strong>Publisher</strong></label>
+                                    <select class="form-control" th:field="*{publisher}">
+                                        <option th:each="publisher : ${publisherList}"
+                                                th:value="${publisher.id}"
+                                                th:utext="${publisher.name}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-3">
+                                    <label class="form-label"><strong></strong>Quantity</label>
+                                    <input type="number" class="form-control" th:field="*{quantity}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <button type="submit" class="btn btn-outline-primary">Create</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT-->
+        <!-- END PAGE CONTAINER-->
+    </div>
+</div>
+<!-- js -->
+<th:block th:replace="/admin/layout/script :: js" />
+
+</body>
+</html>

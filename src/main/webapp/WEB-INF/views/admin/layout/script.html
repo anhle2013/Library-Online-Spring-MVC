@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<th:block th:fragment="js">
+    <!-- Jquery JS-->
+    <script src="/assets/jQuery/jquery-3.6.0.min.js"></script>
+    <script src="/assets/jQuery/jquery.validate-1.19.3.min.js"></script>
+    <script src="/assets/jQuery/jquery.number.js"></script>
+
+    <!-- Bootstrap JS-->
+    <script src="/assets/bootstrap-v5/bootstrap.bundle.min.js"></script>
+
+    <!-- Izi Toast JS-->
+    <script src="/assets/iziToast1.4.0/iziToast-1.4.0.js"></script>
+
+    <!-- Sweet alert JS-->
+    <script src="/assets/sweetalerv2/sweetalert2.min.js"></script>
+
+
+    <script>
+        function blockInputSearch() {
+            let select = document.getElementById('field_name');
+            let option = select.options[select.selectedIndex].value;
+            if (option === "disable") {
+                document.getElementById('search').value = "disable";
+                document.getElementById('search').disabled = true;
+            } else
+                document.getElementById('search').disabled = false;
+        }
+
+        function unlockIdGroup() {
+            let action =  document.getElementById("action").value;
+            if (action === "edit")
+                document.getElementById("idGroup").style.display = "block";
+            else
+                document.getElementById("idGroup").style.display = "none";
+        }
+
+    </script>
+</th:block>

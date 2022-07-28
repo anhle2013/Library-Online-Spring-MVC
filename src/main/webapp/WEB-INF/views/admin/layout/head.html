@@ -1,0 +1,56 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<th:block th:fragment="head">
+    <!-- Fontfaces CSS-->
+<!--    <link href="/assets/css/font-face.css" rel="stylesheet" media="all">-->
+
+    <!-- Bootstrap CSS-->
+    <link href="/assets/bootstrap-v5/bootstrap.min.css" rel="stylesheet" media="all">
+
+
+    <!-- Sweet alert CSS-->
+    <link href="/assets/sweetalerv2/sweetalert2.min.css" rel="stylesheet" media="all">
+
+    <!-- Izi Toast CSS-->
+    <link href="/assets/iziToast1.4.0/iziToast-1.4.0.min.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <link href="/assets/css/theme.css" rel="stylesheet" media="all">
+
+    <style>
+        .book-form {
+            border-width: medium;
+            border-color: #2948ff;
+        }
+        .book-form div {
+            padding-top: 5px;
+        }
+        .book-form button {
+            margin: 10px;
+        }
+        .success li{
+            color: green;
+            font-size: larger;
+            content: '';
+            display: inline-block;
+            background-image: url("/assets/images/icons8-checked-checkbox-50.png");
+            background-repeat: no-repeat;
+            background-size: 30px;
+            padding-left: 33px;
+            margin-top: 15px;
+            margin-left: 40%;
+        }
+
+        .error li {
+            color: red;
+            font-size: larger;
+            content: '';
+            display: inline-block;
+            background-image: url("/assets/images/icons8-x-50.png");
+            background-repeat: no-repeat;
+            background-size: 30px;
+            padding-left: 33px;
+            margin-top: 15px;
+            margin-left: 35%;
+        }
+    </style>
+</th:block>
