@@ -1,15 +1,10 @@
 package com.cg.model;
 
-import com.cg.model.dto.GenreDTO;
-import com.cg.model.dto.PublisherDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Collection;
 
 @Entity
 @Table(name = "publishers")
@@ -25,12 +20,23 @@ public class Publisher {
     private Long id;
 
     private String name;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "publisher")
-    private Set<Book> books;
 
-    public PublisherDTO toPublisherDTO() {
-        return new PublisherDTO()
-                .setId(id)
-                .setName(name);
+    @OneToMany(mappedBy = "publisher", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Book> books;
+
+//    public PublisherDTO toPublisherDTO() {
+//        return new PublisherDTO()
+//                .setId(id)
+//                .setName(name);
+//    }
+
+    @Override
+    public String toString() {
+        return "Publisher{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

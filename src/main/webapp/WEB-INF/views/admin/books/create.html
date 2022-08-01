@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:form="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <title>List</title>
     <th:block th:replace="/admin/layout/head :: head" />
@@ -32,39 +32,44 @@
                             </a>
                         </div>
                     </div>
+                    <div >
+
+                    </div>
                     <div class="book-form">
-                        <form th:object="${bookDTO}" method="post" th:action="@{/books/create}" >
+                        <form th:object="${book}" method="POST">
                             <div class="row">
                                 <div class="col-9">
                                     <label class="form-label"><strong>Name</strong></label>
-                                    <input type="text" class="form-control" th:field="*{name}">
+                                    <input th:field="*{name}" class="form-control">
+                                    <th:block th:if="${#fields.hasErrors('name')}" th:errors="*{name}" th:class="error"></th:block>
+<!--                                    <input type="text" class="form-control"  name="name">-->
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-3">
                                     <label class="form-label"><strong>Author</strong></label>
-                                    <select class="form-control" th:field="*{author}">
-                                        <option th:each="author : ${authorList}"
-                                                th:value="${author.id}"
-                                                th:utext="${author.name}">
+                                    <select class="form-control" th:field="*{author.id}">
+                                        <option th:each="item : ${authors}"
+                                                th:value="${item.id}"
+                                                th:utext="${item.name}">
                                         </option>
                                     </select>
                                 </div>
                                 <div class="col-3">
                                     <label class="form-label"><strong>Genre</strong></label>
-                                    <select class="form-control" th:field="*{genre}">
-                                        <option th:each="genre : ${genreList}"
-                                                th:value="${genre.id}"
-                                                th:utext="${genre.name}">
+                                    <select class="form-control" th:field="*{genre.id}">
+                                        <option th:each="item : ${genres}"
+                                                th:value="${item.id}"
+                                                th:utext="${item.name}">
                                         </option>
                                     </select>
                                 </div>
                                 <div class="col-3">
                                     <label class="form-label"><strong>Publisher</strong></label>
-                                    <select class="form-control" th:field="*{publisher}">
-                                        <option th:each="publisher : ${publisherList}"
-                                                th:value="${publisher.id}"
-                                                th:utext="${publisher.name}">
+                                    <select class="form-control" th:field="*{publisher.id}">
+                                        <option th:each="item : ${publishers}"
+                                                th:value="${item.id}"
+                                                th:utext="${item.name}">
                                         </option>
                                     </select>
                                 </div>
@@ -72,13 +77,26 @@
                             <div class="row">
                                 <div class="col-3">
                                     <label class="form-label"><strong></strong>Quantity</label>
-                                    <input type="number" class="form-control" th:field="*{quantity}">
+                                    <input type="number" class="form-control" name="quantity" th:fields="*{quantity}">
+                                    <th:block th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" th:class="error"></th:block>
                                 </div>
                             </div>
                             <div class="row">
                                 <button type="submit" class="btn btn-outline-primary">Create</button>
                             </div>
                         </form>
+                    </div>
+                    <div class="footer">
+                        <th:block th:if ="${success}">
+                            <ul class="success">
+                                <li th:text="${success}"></li>
+                            </ul>
+                        </th:block>
+                        <th:block th:if ="${error}">
+                            <ul class="error">
+                                <li th:text="${error}"></li>
+                            </ul>
+                        </th:block>
                     </div>
                 </div>
             </div>
@@ -88,7 +106,7 @@
     </div>
 </div>
 <!-- js -->
-<th:block th:replace="/admin/layout/script :: js" />
+<th:block th:replace="/admin/layout/script :: script" />
 
 </body>
 </html>

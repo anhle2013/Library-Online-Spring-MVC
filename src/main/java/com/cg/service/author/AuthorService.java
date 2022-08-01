@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,7 +22,12 @@ public class AuthorService implements IAuthorService {
 
     @Override
     public Optional<Author> findById(Long id) {
-        return Optional.empty();
+        return authorRepository.findById(id);
+    }
+
+    @Override
+    public Iterable<Author> findAllByNameContainingIgnoreCase(String name) {
+        return authorRepository.findAllByNameContainingIgnoreCase(name);
     }
 
     @Override
@@ -40,4 +44,5 @@ public class AuthorService implements IAuthorService {
     public void remove(Long id) {
 
     }
+
 }

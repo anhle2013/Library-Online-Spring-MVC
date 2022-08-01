@@ -1,15 +1,10 @@
 package com.cg.model;
 
-import com.cg.model.dto.AuthorDTO;
-import com.cg.model.dto.GenreDTO;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.Collection;
 
 @Entity
 @Table(name = "genres")
@@ -26,12 +21,22 @@ public class Genre {
 
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "genre")
-    private Set<Book> books;
+    @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private Collection<Book> books;
 
-    public GenreDTO toGenreDTO() {
-        return new GenreDTO()
-                .setId(id)
-                .setName(name);
+//    public GenreDTO toGenreDTO() {
+//        return new GenreDTO()
+//                .setId(id)
+//                .setName(name);
+//    }
+
+    @Override
+    public String toString() {
+        return "Genre{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

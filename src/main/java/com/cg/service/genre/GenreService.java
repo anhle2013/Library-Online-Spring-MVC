@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,7 +21,12 @@ public class GenreService implements IGenreService{
 
     @Override
     public Optional<Genre> findById(Long id) {
-        return Optional.empty();
+        return genreRepository.findById(id);
+    }
+
+    @Override
+    public Iterable<Genre> findAllByNameContainingIgnoreCase(String name) {
+        return genreRepository.findAllByNameContainingIgnoreCase(name);
     }
 
     @Override
@@ -39,4 +43,5 @@ public class GenreService implements IGenreService{
     public void remove(Long id) {
 
     }
+
 }

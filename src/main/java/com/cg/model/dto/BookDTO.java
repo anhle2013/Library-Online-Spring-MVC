@@ -4,11 +4,16 @@ import com.cg.model.Author;
 import com.cg.model.Book;
 import com.cg.model.Genre;
 import com.cg.model.Publisher;
+import com.cg.service.author.IAuthorService;
+import com.cg.service.genre.IGenreService;
+import com.cg.service.publisher.IPublisherService;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.validation.constraints.NotBlank;
 
 @NoArgsConstructor
@@ -17,57 +22,33 @@ import javax.validation.constraints.NotBlank;
 @Setter
 @Accessors(chain = true)
 public class BookDTO {
-
     private Long id;
 
-    @NotBlank(message = "Book name must be required")
     private String name;
 
-    private AuthorDTO author;
+//    private AuthorDTO author;
+    private Author author;
 
-    private GenreDTO genre;
+    private Genre genre;
 
-    private PublisherDTO publisher;
+    private Publisher publisher;
 
     private int quantity;
     private int available;
 
     private boolean active;
 
-    public BookDTO(Long id, String name, Author author, Genre genre, Publisher publisher, int quantity, int available, boolean active) {
-        this.id = id;
-        this.name = name;
-        this.author = author.toAuthorDTO();
-        this.genre = genre.toGenreDTO();
-        this.publisher = publisher.toPublisherDTO();
-        this.quantity = quantity;
-        this.available = available;
-        this.active = active;
-    }
 
     public Book toBook() {
         return new Book()
                 .setId(id)
                 .setName(name)
-                .setAuthor(author.toAuthor())
-                .setGenre(genre.toGenre())
-                .setPublisher(publisher.toPublisher())
+                .setAuthor(author)
+                .setGenre(genre)
+                .setPublisher(publisher)
                 .setQuantity(quantity)
-                .setAvailable(available)
-                .setActive(active);
+                .setAvailable(available);
     }
 
-    @Override
-    public String toString() {
-        return "BookDTO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", author=" + author +
-                ", genre=" + genre +
-                ", publisher=" + publisher +
-                ", quantity=" + quantity +
-                ", available=" + available +
-                ", active=" + active +
-                '}';
-    }
+
 }

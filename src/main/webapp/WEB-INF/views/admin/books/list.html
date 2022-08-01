@@ -29,10 +29,10 @@
                             <h1>Books</h1>
                         </div>
                         <div class="col-6">
-                            <form>
+                            <form action="/books/search" method="post">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
-                                        <select class="form-control" name="field_name" id="field_name" onchange="blockInputSearch()">
+                                        <select class="form-control" id="field_name" name="field_name" onchange="blockInputSearch()">
                                             <option value="b.name">Name</option>
                                             <option value="a.name">Author</option>
                                             <option value="g.name">Genre</option>
@@ -40,12 +40,12 @@
                                             <option value="disable">Disable</option>
                                         </select>
                                     </div>
-                                    <input type="search" class="form-control" name="search" id="search" placeholder="search">
+                                    <input type="search" class="form-control" id="q" name="q" placeholder="search">
                                     <button type="submit" class="btn btn-primary">Search</button>
                                 </div>
                                 <div>
                                     <p>use ' ' to search exactly element (Ex: 'a')</p>
-                                    <p>or All caps (no spaces inside) to search by first characters (Ex: AB, 'AB',...)</p>
+<!--                                    <p>or All caps (no spaces inside) to search by first characters (Ex: AB, 'AB',...)</p>-->
                                 </div>
                             </form>
                         </div>
@@ -61,6 +61,7 @@
                         <table class="table table-hover" id="tbListBooks">
                             <thead>
                             <tr>
+                                <td>Add To Card</td>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Author</th>
@@ -70,14 +71,15 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <th:block th:each="bookDTO : ${bookDTOS}">
-                                <tr th:onclick="|window.location.href='/books/${bookDTO.id}'|">
-                                    <td th:text="${bookDTO.id}"></td>
-                                    <td th:text="${bookDTO.name}"></td>
-                                    <td th:text="${bookDTO.author.getName()}"></td>
-                                    <td th:text="${bookDTO.genre.getName()}"></td>
-                                    <td th:text="${bookDTO.publisher.getName()}"></td>
-                                    <td th:text="${bookDTO.available}"></td>
+                            <th:block th:each="book : ${books}">
+                                <tr th:onclick="|window.location.href='/books/${book.id}'|">
+                                    <td><a th:href="@{/addToCard/__${book.id}__}">Add To Card</a></td>
+                                    <td th:text="${book.id}"></td>
+                                    <td th:text="${book.name}"></td>
+                                    <td th:text="${book.author.getName()}"></td>
+                                    <td th:text="${book.genre.getName()}"></td>
+                                    <td th:text="${book.publisher.getName()}"></td>
+                                    <td th:text="${book.available}"></td>
                                 </tr>
                             </th:block>
                             </tbody>
@@ -96,7 +98,7 @@
 <!-- js -->
 <th:block th:replace="/admin/layout/script :: script" />
 
-<!--<script src="/assets/js/app_book.js"></script>-->
+<!--<script src="/assets/js/app.js"></script>-->
 
 <!--<script>-->
 <!--    let page = {-->

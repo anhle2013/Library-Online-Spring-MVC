@@ -33,39 +33,39 @@
                         </div>
                     </div>
                     <hr>
-                    <th:block th:if="${bookDTO}">
-
-                        <form class="book-form" th:object="${bookDTO}" method="post" >
+                    <th:block th:if="${book}">
+                        <form class="book-form" th:object="${book}" method="post" >
                             <h3>Update Book Information</h3>
                             <div class="row">
-                                <div class="col-9">
-                                    <label for="name" class="form-label">Previous Name: ${bookDTO.getName()}</label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
+                                <div class="col-12">
+                                    <label class="form-label" th:text="*{'Previous Name: ' + name}"></label>
+                                    <input type="text" class="form-control" th:field="*{name}">
+                                    <input type="text" class="form-control" th:value="*{quantity}" th:field="*{quantity}" hidden>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-3">
-                                    <label class="form-label">Previous Author: ${bookDTO.getAuthor()}</label>
-                                    <select class="form-control" th:field="*{author}">
-                                        <option th:each="author : ${authorList}"
+                                <div class="col-4">
+                                    <label class="form-label" th:text="*{'Previous Author: ' + author.name}"></label>
+                                    <select class="form-control" th:field="*{author.id}">
+                                        <option th:each="author : ${authors}"
                                                 th:value="${author.id}"
                                                 th:utext="${author.name}">
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-3">
-                                    <label class="form-label">Previous Genre: ${bookDTO.getGenre()}</label>
-                                    <select class="form-control" th:field="*{genre}">
-                                        <option th:each="genre : ${genreList}"
+                                <div class="col-4">
+                                    <label class="form-label" th:text="*{'Previous Genre: ' + genre.name}"></label>
+                                    <select class="form-control" th:field="*{genre.id}">
+                                        <option th:each="genre : ${genres}"
                                                 th:value="${genre.id}"
                                                 th:utext="${genre.name}">
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-3">
-                                    <label class="form-label">Previous Publisher: ${bookDTO.getPublisher()}</label>
-                                    <select class="form-control" th:field="*{publisher}">
-                                        <option th:each="publisher : ${publisherList}"
+                                <div class="col-4">
+                                    <label class="form-label" th:text="*{'Previous Publisher: ' + publisher.name}"></label>
+                                    <select class="form-control" th:field="*{publisher.id}">
+                                        <option th:each="publisher : ${publishers}"
                                                 th:value="${publisher.id}"
                                                 th:utext="${publisher.name}">
                                         </option>
@@ -78,12 +78,12 @@
                         </form>
 
 
-                        <form method="post" class="book-form">
+                        <form class="book-form" th:object="${book}" method="post" >
                             <h3>Add more Book Quantity</h3>
                             <div class="row">
-                                <div class="col-3">
-                                    <label for="quantity" class="form-label">Previous Quantity: ${bookDTO.getQuantity()}</label>
-                                    <input type="number" class="form-control" id="quantity" name="quantity" required>
+                                <div class="col-4">
+                                    <label class="form-label" th:text="*{'Previous Quantity: ' + quantity}"></label>
+                                    <input type="number" class="form-control" th:field="*{quantity}">
                                 </div>
                             </div>
                             <div class="row">
@@ -92,27 +92,18 @@
                         </form>
                     </th:block>
 
-<!--                    <div class="footer">-->
-<!--                        <c:if test="${requestScope['success'] != null}">-->
-<!--                            <ul class="success">-->
-<!--                                <li>${requestScope['success']}</li>-->
-<!--                            </ul>-->
-<!--                        </c:if>-->
-<!--                        <c:if test="${!requestScope['errors'].isEmpty()}">-->
-<!--                            <ul class="error">-->
-<!--                                <c:forEach items="${requestScope['errors']}" var="item">-->
-<!--                                    <li>${item}</li>-->
-<!--                                </c:forEach>-->
-<!--                            </ul>-->
-<!--                        </c:if>-->
-<!--                        <c:if test="${!requestScope['errorsId'].isEmpty()}">-->
-<!--                            <ul class="error">-->
-<!--                                <c:forEach items="${requestScope['errorsId']}" var="item">-->
-<!--                                    <li>${item}</li>-->
-<!--                                </c:forEach>-->
-<!--                            </ul>-->
-<!--                        </c:if>-->
-<!--                    </div>-->
+                    <div class="footer">
+                        <th:block th:if ="${success}">
+                            <ul class="success">
+                                <li th:text="${success}"></li>
+                            </ul>
+                        </th:block>
+                        <th:block th:if ="${error}">
+                            <ul class="error">
+                                <li th:text="${error}"></li>
+                            </ul>
+                        </th:block>
+                    </div>
                 </div>
             </div>
         </div>
@@ -121,7 +112,7 @@
     </div>
 </div>
 <!-- js -->
-<th:block th:replace="/admin/layout/script :: js" />
+<th:block th:replace="/admin/layout/script :: script" />
 
 </body>
 </html>

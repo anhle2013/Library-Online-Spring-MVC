@@ -1,7 +1,9 @@
 package com.cg.service.book;
 
+import com.cg.model.Author;
 import com.cg.model.Book;
-import com.cg.model.dto.BookDTO;
+import com.cg.model.Genre;
+import com.cg.model.Publisher;
 import com.cg.repository.IBookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,17 +20,48 @@ public class BookService implements IBookService{
 
     @Override
     public Iterable<Book> findAll() {
-        return null;
+        return bookRepository.findAll();
+    }
+
+//    @Override
+//    public List<BookDTO> findAllBookDTO() {
+////        return null;
+//        return bookRepository.findAllBookDTO();
+//    }
+
+    @Override
+    public Iterable<Book> findAllByActive(boolean active) {
+        return bookRepository.findAllByActive(active);
     }
 
     @Override
-    public List<BookDTO> findAllBookDTO() {
-        return bookRepository.findAllBookDTO();
+    public Iterable<Book> findAllByNameContainingIgnoreCase(String name) {
+        return bookRepository.findAllByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public Iterable<Book> findByAuthor(Author author) {
+        return bookRepository.findByAuthor(author);
+    }
+
+    @Override
+    public Iterable<Book> findByGenre(Genre genre) {
+        return bookRepository.findByGenre(genre);
+    }
+
+    @Override
+    public Iterable<Book> findByPublisher(Publisher publisher) {
+        return bookRepository.findByPublisher(publisher);
     }
 
     @Override
     public Optional<Book> findById(Long id) {
         return bookRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Book> findByNameAndAuthorAndGenreAndPublisher(String name, Author author, Genre genre, Publisher publisher) {
+        return bookRepository.findByNameAndAuthorAndGenreAndPublisher(name, author, genre, publisher);
     }
 
     @Override

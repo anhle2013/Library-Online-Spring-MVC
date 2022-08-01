@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<th:block th:fragment="js">
+<th:block th:fragment="script">
     <!-- Jquery JS-->
     <script src="/assets/jQuery/jquery-3.6.0.min.js"></script>
     <script src="/assets/jQuery/jquery.validate-1.19.3.min.js"></script>
@@ -20,10 +20,10 @@
             let select = document.getElementById('field_name');
             let option = select.options[select.selectedIndex].value;
             if (option === "disable") {
-                document.getElementById('search').value = "disable";
-                document.getElementById('search').disabled = true;
+                document.getElementById('q').value = "disable";
+                document.getElementById('q').disabled = true;
             } else
-                document.getElementById('search').disabled = false;
+                document.getElementById('q').disabled = false;
         }
 
         function unlockIdGroup() {

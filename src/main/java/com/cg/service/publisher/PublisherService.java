@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,7 +21,12 @@ public class PublisherService implements IPublisherService{
 
     @Override
     public Optional<Publisher> findById(Long id) {
-        return Optional.empty();
+        return publisherRepository.findById(id);
+    }
+
+    @Override
+    public Iterable<Publisher> findAllByNameContainingIgnoreCase(String name) {
+        return publisherRepository.findAllByNameContainingIgnoreCase(name);
     }
 
     @Override
@@ -39,4 +43,5 @@ public class PublisherService implements IPublisherService{
     public void remove(Long id) {
 
     }
+
 }
