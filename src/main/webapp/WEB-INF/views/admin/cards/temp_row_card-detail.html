@@ -1,0 +1,23 @@
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<th:block th:fragment="temp_row_card-detail">
+
+    <textarea id="tempRowCardDetail" class="hide">
+        <tr id="tr_{0}">
+            <td>{0}</td>
+            <td>{1}</td>
+            <td>{2}</td>
+            <td>{3}</td>
+            <td>{4}</td>
+            <td>{5}</td>
+            <td>
+              <select th:id="${'status_' + callCardDetail.id}" th:onchange="'javascript:changeBorrowStatus(' + ${callCardDetail.id} + ');'">
+                <option value="OUT_OF_DATE">OUT_OF_DATE</option>
+                <option value="DONE">DONE</option>
+                <option value="LOST">LOST</option>
+              </select>
+            </td>
+        </tr>
+    </textarea>
+
+</th:block>

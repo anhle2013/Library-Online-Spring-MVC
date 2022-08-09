@@ -1,10 +1,11 @@
 package com.cg.model;
 
+import com.cg.model.dto.BookType;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "genres")
@@ -24,13 +25,13 @@ public class Genre {
     @OneToMany(mappedBy = "genre", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Collection<Book> books;
+    private Set<Book> books;
 
-//    public GenreDTO toGenreDTO() {
-//        return new GenreDTO()
-//                .setId(id)
-//                .setName(name);
-//    }
+    public BookType toTypeDTO() {
+        return new BookType()
+                .setId(id)
+                .setName(name);
+    }
 
     @Override
     public String toString() {

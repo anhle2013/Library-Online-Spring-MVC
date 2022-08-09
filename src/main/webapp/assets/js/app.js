@@ -19,7 +19,6 @@ class App {
             Swal.fire({
                 icon: 'success',
                 title: t,
-                position: 'top-end',
                 showConfirmButton: false,
                 timer: 1500
             })

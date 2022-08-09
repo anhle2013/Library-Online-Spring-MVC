@@ -2,10 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>List</title>
+    <title>Books</title>
     <th:block th:replace="/admin/layout/head :: head" />
 </head>
-<body class="animsition">
+<body class="animation">
 <div class="page-wrapper">
     <!-- HEADER MOBILE-->
     <th:block th:replace="/admin/layout/header_mobile :: header_mobile" />
@@ -58,10 +58,9 @@
                     </div>
 
                     <div class="row">
-                        <table class="table table-hover" id="tbListBooks">
+                        <table class="table table-striped table-hover" id="tbListBooks">
                             <thead>
                             <tr>
-                                <td>Add To Card</td>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Author</th>
@@ -72,8 +71,7 @@
                             </thead>
                             <tbody>
                             <th:block th:each="book : ${books}">
-                                <tr th:onclick="|window.location.href='/books/${book.id}'|">
-                                    <td><a th:href="@{/addToCard/__${book.id}__}">Add To Card</a></td>
+                                <tr th:onclick="|window.location.href='/books/select/${book.id}'|" th:id="${'tr_' + book.id}">
                                     <td th:text="${book.id}"></td>
                                     <td th:text="${book.name}"></td>
                                     <td th:text="${book.author.getName()}"></td>
@@ -98,7 +96,21 @@
 <!-- js -->
 <th:block th:replace="/admin/layout/script :: script" />
 
+
 <!--<script src="/assets/js/app.js"></script>-->
+
+<script>
+    function blockInputSearch() {
+        let select = document.getElementById('field_name');
+        let option = select.options[select.selectedIndex].value;
+        if (option === "disable") {
+            document.getElementById('q').value = "disable";
+            document.getElementById('q').disabled = true;
+        } else
+            document.getElementById('q').disabled = false;
+    }
+</script>
+
 
 <!--<script>-->
 <!--    let page = {-->

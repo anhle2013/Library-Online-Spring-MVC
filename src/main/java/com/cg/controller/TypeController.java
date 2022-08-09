@@ -15,21 +15,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/types")
 public class TypeController {
-    @Autowired
-    private IAuthorService authorService;
-
-    @Autowired
-    private IGenreService genreService;
-
-    @Autowired
-    private IPublisherService publisherService;
-
-
     @GetMapping
     public ModelAndView showTypePage() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/admin/types/list");
-
         return modelAndView;
     }
 }

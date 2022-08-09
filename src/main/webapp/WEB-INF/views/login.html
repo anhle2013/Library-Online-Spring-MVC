@@ -1,145 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,300">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <link href="/assets/iziToast1.4.0/iziToast-1.4.0.min.css" rel="stylesheet" media="all">
-    <link rel="stylesheet" href="/assets/css/login.css">
+    <title>Login Library Online</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS-->
+    <link href="/assets/bootstrap-v5/bootstrap.min.css" rel="stylesheet" media="all">
+
+    <!-- Sweet alert CSS-->
+    <link href="/assets/sweetalerv2/sweetalert2.min.css" rel="stylesheet" media="all">
+
+    <style>
+        .container-fluid {
+            height: auto;
+        }
+        .login-form-left {
+            float: left;
+            height: auto;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .login-form-right {
+            float: left;
+            height: 100%;
+            position: relative;
+            top: 100px;
+        }
+        form, form div {
+            margin-top: 10px;
+            margin-left: 20px;
+            padding: 10px;
+        }
+    </style>
 </head>
 <body>
-<div class="cotn_principal">
-    <div class="cont_centrar">
-
-        <div class="cont_login">
-            <div class="cont_info_log_sign_up">
-                <div class="col_md_login">
-                    <div class="cont_ba_opcitiy">
-
-                        <h2>LOGIN</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                        <button class="btn_login" onclick="cambiar_login()">LOGIN</button>
-                    </div>
+<div class="container-fluid">
+    <div class="col-md-7 login-form-left d-none d-md-block ">
+        <img src="/assets/images/background_login.jpg" class="img-responsive">
+    </div>
+    <div class="col-md-5 login-form-right">
+        <div class="login-form">
+            <h1>Login Library Online</h1>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label>User Name</label>
+                    <input class="au-input au-input--full form-control" type="text" name="usernameLogin" id="usernameLogin" placeholder="Username" required>
                 </div>
-                <div class="col_md_sign_up">
-                    <div class="cont_ba_opcitiy">
-                        <h2>SIGN UP</h2>
-
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-
-                        <button class="btn_sign_up" onclick="cambiar_sign_up()">SIGN UP</button>
-                    </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input class="au-input au-input--full form-control" type="password" name="passwordLogin" id="passwordLogin" placeholder="Password" required>
                 </div>
-            </div>
-
-
-            <div class="cont_back_info">
-                <div class="cont_img_back_grey">
-                    <img src="/assets/img/login-background.jpg" alt="" />
+                <button class="btn btn-primary" type="button" id="btn_login">Sign in</button>
+                <div class="row">
+                    <label>Don't have account? <a href="/register">Register Now</a> </label>
                 </div>
-
-            </div>
-            <div class="cont_forms" >
-                <div class="cont_img_back_">
-                    <img src="/assets/img/login-background.jpg" alt="" />
-                </div>
-                <div class="cont_form_login">
-                    <a href="#" onclick="ocultar_login_sign_up()" ><i class="material-icons">&#xE5C4;</i></a>
-                    <h2>LOGIN</h2>
-                    <input id="usernameLogin" name="usernameLogin" type="text" placeholder="Username" />
-                    <input id="passwordLogin" name="passwordLogin" type="password" placeholder="Password" />
-                    <button id="btn_login" class="btn_login">LOGIN</button>
-                </div>
-
-                <div class="cont_form_sign_up">
-                    <a href="#" onclick="ocultar_login_sign_up()"><i class="material-icons">&#xE5C4;</i></a>
-                    <h2>SIGN UP</h2>
-                    <select class="form-select" name="role" id="role">
-                        <option value="1">ADMIN</option>
-                        <option value="2">USER</option>
-                    </select>
-                    <input type="text" id="username" name="username" placeholder="User Name" />
-                    <input type="password" id="password" name="password" placeholder="Password" />
-                    <input type="password" id="checkPassword" name="checkPassword" placeholder="Confirm Password" />
-                    <button id="btn_sign_up" class="btn_sign_up">SIGN UP</button>
-
-                </div>
-
-            </div>
-
+            </form>
         </div>
     </div>
 </div>
-<script src="/assets/js/login.js"></script>
+</div>
+
+<!-- Jquery JS-->
 <script src="/assets/jQuery/jquery-3.6.0.min.js"></script>
-<script src="/assets/iziToast1.4.0/iziToast-1.4.0.js"></script>
-<script type="text/javascript" src="/assets/js/app.js"></script>
+<script src="/assets/jQuery/jquery.validate-1.19.3.min.js"></script>
+<script src="/assets/jQuery/jquery.number.js"></script>
 
-<script>
-    let btnRegister = $('#btn_sign_up');
-    btnRegister.on('click', () => {
-        let username = $('#username').val();
-        let password =  $('#password').val();
-        let roleId =  $('#role').val();
+<!-- Sweet alert JS-->
+<script src="/assets/sweetalerv2/sweetalert2.min.js"></script>
 
-        let user = {
-            username: username,
-            password: password,
-            role: {
-                id: roleId
-            }
-        }
+<!-- Bootstrap JS-->
+<script src="/assets/bootstrap-v5/bootstrap.bundle.min.js"></script>
 
-        $.ajax({
-            "headers": {
-                "accept": "application/json",
-                "content-type": "application/json"
-            },
-            "type": "POST",
-            "url": "http://localhost:8080/api/auth/register",
-            "data": JSON.stringify(user)
-        })
-            .done((data) => {
-                $('#usernameLogin').val($('#username').val());
-                $('#passwordLogin').val($('#password').val());
-                App.IziToast.showSuccessAlert("Register Successfull");
-                cambiar_login();
-            })
-            .fail((jqXHR) => {
-                console.log(jqXHR)
-            })
-    })
+<script src="/assets/js/app.js"></script>
 
-    let btnLogin = $('#btn_login');
-    btnLogin.on('click', () => {
-        let username = $('#usernameLogin').val();
-        let password =  $('#passwordLogin').val();
+<script src="/assets/js/login.js"></script>
 
-        let user = {
-            username: username,
-            password: password
-        }
-
-        $.ajax({
-            "headers": {
-                "accept": "application/json",
-                "content-type": "application/json"
-            },
-            "type": "POST",
-            "url": "http://localhost:8080/api/auth/login",
-            "data": JSON.stringify(user)
-        })
-            .done((data) => {
-                console.log(data)
-                window.location.href = "http://localhost:8080/books";
-            })
-            .fail((jqXHR) => {
-                console.log(jqXHR)
-                alert("Wrong password or username")
-            })
-    })
-</script>
 </body>
 </html>

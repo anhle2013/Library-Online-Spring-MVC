@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>List</title>
+    <title>Books</title>
     <th:block th:replace="/admin/layout/head :: head" />
 </head>
-<body class="animsition">
+<body class="animation">
 <div class="page-wrapper">
     <!-- HEADER MOBILE-->
     <th:block th:replace="/admin/layout/header_mobile :: header_mobile" />
@@ -34,7 +34,7 @@
                     </div>
                     <hr>
                     <th:block th:if="${book}">
-                        <form class="book-form" th:object="${book}" method="post" >
+                        <form class="book-form" th:object="${book}" method="post" th:action="@{/books/edit/__${book.id}__}">
                             <h3>Update Book Information</h3>
                             <div class="row">
                                 <div class="col-12">
@@ -78,12 +78,17 @@
                         </form>
 
 
-                        <form class="book-form" th:object="${book}" method="post" >
+                        <form class="book-form" th:object="${book}" method="post" th:action="@{/books/edit/quantity/__${book.id}__}">
                             <h3>Add more Book Quantity</h3>
                             <div class="row">
                                 <div class="col-4">
                                     <label class="form-label" th:text="*{'Previous Quantity: ' + quantity}"></label>
                                     <input type="number" class="form-control" th:field="*{quantity}">
+                                    <input type="text" class="form-control" th:value="*{name}" th:field="*{name}" hidden>
+                                    <input type="text" class="form-control" th:value="*{author}" th:field="*{author}" hidden>
+                                    <input type="text" class="form-control" th:value="*{genre}" th:field="*{genre}" hidden>
+                                    <input type="text" class="form-control" th:value="*{publisher}" th:field="*{publisher}" hidden>
+                                    <input type="text" class="form-control" th:value="*{available}" th:field="*{available}" hidden>
                                 </div>
                             </div>
                             <div class="row">

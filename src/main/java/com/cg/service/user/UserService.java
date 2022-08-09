@@ -1,5 +1,6 @@
 package com.cg.service.user;
 
+import com.cg.model.Role;
 import com.cg.model.User;
 import com.cg.model.UserPrinciple;
 import com.cg.model.dto.UserDTO;
@@ -9,11 +10,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserService implements IUserService {
 
     @Autowired
@@ -33,6 +36,16 @@ public class UserService implements IUserService {
     }
 
     @Override
+    public Optional<User> findByIdAndRole(Long userId, Role role) {
+        return userRepository.findByIdAndRole(userId, role);
+    }
+
+    @Override
+    public List<User> findAllByRole(Role role) {
+        return userRepository.findAllByRole(role);
+    }
+
+    @Override
     public User getById(Long id) {
         return userRepository.getById(id);
     }
@@ -49,6 +62,11 @@ public class UserService implements IUserService {
 
     @Override
     public Iterable<User> findAllByNameContainingIgnoreCase(String name) {
+        return null;
+    }
+
+    @Override
+    public Iterable<User> findAllByName(String name) {
         return null;
     }
 

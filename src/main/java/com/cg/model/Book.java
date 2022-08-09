@@ -4,11 +4,11 @@ import com.cg.model.dto.BookDTO;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Range;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Collection;
+import java.util.Set;
+
 
 @Entity
 @Table(name = "books")
@@ -54,7 +54,9 @@ public class Book extends BaseEntity {
     private Integer available;
 
     @OneToMany(mappedBy = "book")
-    private Collection<CallCardDetail> callCardDetails;
+    private Set<CallCardDetail> callCardDetails;
+
+
 
     public BookDTO toBookDTO() {
         return new BookDTO()

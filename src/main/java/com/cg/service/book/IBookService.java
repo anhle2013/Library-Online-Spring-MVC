@@ -14,7 +14,6 @@ public interface IBookService extends IGeneralService<Book> {
 //    List<BookDTO> findAllBookDTO();
     Iterable<Book> findAllByActive(boolean active);
     Iterable<Book> findByAuthor(Author author);
-
     Iterable<Book> findByGenre(Genre genre);
     Iterable<Book> findByPublisher(Publisher publisher);
 

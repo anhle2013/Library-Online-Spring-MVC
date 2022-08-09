@@ -1,11 +1,13 @@
 package com.cg.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.Set;
 
 
 @Getter
@@ -32,17 +34,9 @@ public class User extends BaseEntity {
     private Role role;
 
 
-    @OneToMany(mappedBy = "user")
-    private Collection<CallCard> callCards;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private Set<CallCard> callCards;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                '}';
-    }
+
 
 }

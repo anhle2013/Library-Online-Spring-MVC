@@ -1,10 +1,8 @@
 package com.cg.model;
 
+import com.cg.model.dto.BookType;
 import lombok.*;
 import lombok.experimental.Accessors;
-import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -33,11 +31,11 @@ public class Author {
     @ToString.Exclude
     private Collection<Book> books;
 
-//    public AuthorDTO toAuthorDTO() {
-//        return new AuthorDTO()
-//                .setId(id)
-//                .setName(name);
-//    }
+    public BookType toTypeDTO() {
+        return new BookType()
+                .setId(id)
+                .setName(name);
+    }
 
     @Override
     public String toString() {

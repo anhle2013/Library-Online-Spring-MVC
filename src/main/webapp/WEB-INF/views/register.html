@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Register Library Online</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS-->
+  <link href="/assets/bootstrap-v5/bootstrap.min.css" rel="stylesheet" media="all">
+
+  <!-- Sweet alert CSS-->
+  <link href="/assets/sweetalerv2/sweetalert2.min.css" rel="stylesheet" media="all">
+
+  <style>
+    .container-fluid {
+      height: auto;
+    }
+    .login-form-left {
+      float: left;
+      height: auto;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .login-form-right {
+      float: left;
+      height: 100%;
+      position: relative;
+      top: 100px;
+    }
+    form, form div {
+      margin-top: 10px;
+      margin-left: 20px;
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container-fluid">
+  <div class="col-md-7 login-form-left d-none d-md-block ">
+    <img src="/assets/images/background_login.jpg" class="img-responsive">
+  </div>
+  <div class="col-md-5 login-form-right">
+    <div class="login-form">
+      <h1>Register Library Online</h1>
+      <form method="post">
+        <div class="form-group">
+          <label>User Name</label>
+          <input class="au-input au-input--full form-control" type="text" name="username" id="username" placeholder="Username" required>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input class="au-input au-input--full form-control" type="password" name="password" id="password" placeholder="Password" required>
+        </div>
+        <div class="form-group">
+          <label>Retype Password</label>
+          <input class="au-input au-input--full form-control" type="password" name="password" id="checkPassword" placeholder="Retype Password" required>
+        </div>
+        <button class="btn btn-primary" type="button" id="btn_sign_up">Sign Up</button>
+      </form>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Jquery JS-->
+<script src="/assets/jQuery/jquery-3.6.0.min.js"></script>
+<script src="/assets/jQuery/jquery.validate-1.19.3.min.js"></script>
+<script src="/assets/jQuery/jquery.number.js"></script>
+
+<!-- Sweet alert JS-->
+<script src="/assets/sweetalerv2/sweetalert2.min.js"></script>
+
+<!-- Bootstrap JS-->
+<script src="/assets/bootstrap-v5/bootstrap.bundle.min.js"></script>
+
+<script src="/assets/js/app.js"></script>
+
+<script src="/assets/js/login.js"></script>
+
+</body>
+</html>

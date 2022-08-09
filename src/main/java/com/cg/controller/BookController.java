@@ -1,10 +1,15 @@
 package com.cg.controller;
 
 import com.cg.model.*;
+
 import com.cg.service.author.IAuthorService;
 import com.cg.service.book.IBookService;
+
+import com.cg.service.callCard.ICallCardService;
+import com.cg.service.callCardDetail.ICallCardDetailService;
 import com.cg.service.genre.IGenreService;
 import com.cg.service.publisher.IPublisherService;
+import com.cg.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -12,12 +17,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpSession;
+import java.util.*;
 
 @Controller
-@SessionAttributes("callCard")
+@SessionAttributes("bookList")
 @RequestMapping("/books")
 public class BookController {
     @Autowired
@@ -32,11 +37,20 @@ public class BookController {
     @Autowired
     private IPublisherService publisherService;
 
+    @Autowired
+    private ICallCardService callCardService;
 
-    @ModelAttribute("callCard")
-    public CallCard setupCart() {
-        return new CallCard();
+    @Autowired
+    private ICallCardDetailService callCardDetailService;
+
+    @Autowired
+    private IUserService userService;
+
+    @ModelAttribute("bookList")
+    public HashSet<Long> setupCard() {
+        return new HashSet<>();
     }
+
     
     private Iterable<Book> books = new ArrayList<>();
     private Iterable<Author> authors = new ArrayList<>();
@@ -67,7 +81,7 @@ public class BookController {
         return modelAndView;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/select/{id}")
     public ModelAndView showSelectPage(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/admin/books/select");
@@ -135,7 +149,7 @@ public class BookController {
     }
 
 //    @GetMapping("/addToCard/{id}")
-//    public ModelAndView addToCard(@PathVariable Long id, @ModelAttribute CallCard callCard) {
+//    public ModelAndView addToCard(@PathVariable Long id, @ModelAttribute callCardDTODTODTODTODTODTODTO callCardDTODTODTODTODTODTODTO) {
 //        ModelAndView modelAndView = new ModelAndView();
 //        modelAndView.setViewName("/admin/books/list");
 //        Optional<Book> optionalBook = bookService.findById(id);
@@ -144,7 +158,7 @@ public class BookController {
 //            return modelAndView;
 //        }
 //        else  {
-//            callCard.addBook(optionalBook.get());
+//            callCardDTODTODTODTODTODTODTO.addBook(optionalBook.get());
 //            modelAndView.addObject("success", "Added Book (ID = "+ id +") to Call Card");
 //            return modelAndView;
 //        }
@@ -172,7 +186,6 @@ public class BookController {
         if (optionalBook.isPresent())
             modelAndView.addObject("error", "This book already exist with id: " + optionalBook.get().getId());
         else {
-            book.setActive(true);
             book.setAvailable(book.getQuantity());
             bookService.save(book);
             modelAndView.addObject("success", "Created New Book");
@@ -252,51 +265,148 @@ public class BookController {
             searchKey = q.get().trim().replaceAll("\\s+", " ");
         int firstIndex = searchKey.indexOf("'");
         int lastIndex = searchKey.lastIndexOf("'");
-        switch (field_name) {
-            case "b.name":
-                books = bookService.findAllByNameContainingIgnoreCase(searchKey);
-                modelAndView.addObject("success", "Search by Book Name like: '" + searchKey + "'");
-                modelAndView.addObject("books", books);
-                break;
-            case "a.name":
-                authors = authorService.findAllByNameContainingIgnoreCase(searchKey);
-                for (Author author: authors) {
-                    books = bookService.findByAuthor(author);
-                    books.forEach(bookList::add);
-                }
-                modelAndView.addObject("books", bookList);
-                modelAndView.addObject("success", "Search by Author Name like: '" + searchKey + "'");
-                break;
-            case "g.name":
-                genres = genreService.findAllByNameContainingIgnoreCase(searchKey);
-                for (Genre genre: genres) {
-                    books = bookService.findByGenre(genre);
-                    books.forEach(bookList::add);
-                }
-                modelAndView.addObject("books", bookList);
-                modelAndView.addObject("success", "Search by Genre Name like: '" + searchKey + "'");
-                break;
-            case "p.name":
-                publishers = publisherService.findAllByNameContainingIgnoreCase(searchKey);
-                for (Publisher publisher : publishers) {
-                    books = bookService.findByPublisher(publisher);
-                    books.forEach(bookList::add);
-                }
-                modelAndView.addObject("books", bookList);
-                modelAndView.addObject("success", "Search by Publisher Name like: '" + searchKey + "'");
-                break;
-            default:
-                modelAndView.addObject("error", "Field search NOT available");
+        if (firstIndex == 0 && lastIndex == searchKey.length() - 1) {
+            searchKey = searchKey.substring( 1, searchKey.length() - 1 );
+            switch (field_name) {
+                case "b.name":
+                    books = bookService.findAllByName(searchKey);
+                    modelAndView.addObject("success", "Search by Book Name = '" + searchKey + "'");
+                    modelAndView.addObject("books", books);
+                    break;
+                case "a.name":
+                    authors = authorService.findAllByName(searchKey);
+                    for (Author author : authors) {
+                        books = bookService.findByAuthor(author);
+                        books.forEach(bookList::add);
+                    }
+                    modelAndView.addObject("books", bookList);
+                    modelAndView.addObject("success", "Search by Author Name = '" + searchKey + "'");
+                    break;
+                case "g.name":
+                    genres = genreService.findAllByName(searchKey);
+                    for (Genre genre : genres) {
+                        books = bookService.findByGenre(genre);
+                        books.forEach(bookList::add);
+                    }
+                    modelAndView.addObject("books", bookList);
+                    modelAndView.addObject("success", "Search by Genre Name = '" + searchKey + "'");
+                    break;
+                case "p.name":
+                    publishers = publisherService.findAllByName(searchKey);
+                    for (Publisher publisher : publishers) {
+                        books = bookService.findByPublisher(publisher);
+                        books.forEach(bookList::add);
+                    }
+                    modelAndView.addObject("books", bookList);
+                    modelAndView.addObject("success", "Search by Publisher Name like: '" + searchKey + "'");
+                    break;
+                default:
+                    modelAndView.addObject("error", "Field search NOT available");
+            }
         }
-
+        else {
+            switch (field_name) {
+                case "b.name":
+                    books = bookService.findAllByNameContainingIgnoreCase(searchKey);
+                    modelAndView.addObject("success", "Search by Book Name like: '" + searchKey + "'");
+                    modelAndView.addObject("books", books);
+                    break;
+                case "a.name":
+                    authors = authorService.findAllByNameContainingIgnoreCase(searchKey);
+                    for (Author author : authors) {
+                        books = bookService.findByAuthor(author);
+                        books.forEach(bookList::add);
+                    }
+                    modelAndView.addObject("books", bookList);
+                    modelAndView.addObject("success", "Search by Author Name like: '" + searchKey + "'");
+                    break;
+                case "g.name":
+                    genres = genreService.findAllByNameContainingIgnoreCase(searchKey);
+                    for (Genre genre : genres) {
+                        books = bookService.findByGenre(genre);
+                        books.forEach(bookList::add);
+                    }
+                    modelAndView.addObject("books", bookList);
+                    modelAndView.addObject("success", "Search by Genre Name like: '" + searchKey + "'");
+                    break;
+                case "p.name":
+                    publishers = publisherService.findAllByNameContainingIgnoreCase(searchKey);
+                    for (Publisher publisher : publishers) {
+                        books = bookService.findByPublisher(publisher);
+                        books.forEach(bookList::add);
+                    }
+                    modelAndView.addObject("books", bookList);
+                    modelAndView.addObject("success", "Search by Publisher Name like: '" + searchKey + "'");
+                    break;
+                default:
+                    modelAndView.addObject("error", "Field search NOT available");
+            }
+        }
         return modelAndView;
     }
 
-//    @GetMapping("/search")
-//    public ModelAndView showSearchPage(){
-//        ModelAndView modelAndView = new ModelAndView("/admin/books/search");
-//        return modelAndView;
-//    }
+    @PostMapping("/select/{bookId}")
+    public ModelAndView addToCard (@PathVariable Long bookId, @ModelAttribute("bookList") HashSet<Long> bookList, HttpSession session) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/admin/books/select");
+        Optional<Book> optionalBook = bookService.findById(bookId);
+        if (!optionalBook.isPresent())
+            modelAndView.addObject("error", "Book ID NOT available!");
+        else {
+            Book book = optionalBook.get();
+            boolean bookIsActive = optionalBook.get().isActive();
+            if (!bookIsActive)
+                modelAndView.addObject("error", "This Book is DISABLE now!");
+            else {
+                int availableBook = optionalBook.get().getAvailable();
+                if (availableBook <= 0)
+                    modelAndView.addObject("error", "All these book have been borrowed!");
+                else {
+                    boolean bookExists = bookList.contains(bookId);
+                    if (bookExists) {
+                        modelAndView.addObject("error", "Book with ID = " + bookId + " already added to Card!");
+                        modelAndView.addObject("book", book);
+                        return modelAndView;
+                    } else {
+                        bookList.add(bookId);
+                        modelAndView.addObject("success", "Added book to Call Card successfull");
+                        session.setAttribute("bookList", bookList);
+                    }
+                }
+            }
+            modelAndView.addObject("book", book);
+        }
+        return modelAndView;
+    }
 
+    @PostMapping("/edit/quantity/{id}")
+    public ModelAndView doAddMoreQuantity (@PathVariable Long id, @ModelAttribute @Validated Book book, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/admin/books/edit");
+        authors = authorService.findAll();
+        genres = genreService.findAll();
+        publishers = publisherService.findAll();
+        modelAndView.addObject("authors", authors);
+        modelAndView.addObject("genres", genres);
+        modelAndView.addObject("publishers", publishers);
 
+        Optional<Book> optionalCurrentBook = bookService.findById(id);
+        if (!optionalCurrentBook.isPresent())
+            modelAndView.addObject("error", "Book Id NOT EXIST");
+        else  {
+            if (bindingResult.hasFieldErrors()){
+                modelAndView.addObject("book", optionalCurrentBook.get());
+                return modelAndView;
+            }
+            int moreQuantity = book.getQuantity();
+            Book currentBook = optionalCurrentBook.get();
+            currentBook.setQuantity(currentBook.getQuantity() + moreQuantity);
+            currentBook.setAvailable(currentBook.getAvailable() + moreQuantity);
+
+            bookService.save(currentBook);
+            modelAndView.addObject("book", currentBook);
+            modelAndView.addObject("success", "Updated Quantity successful");
+        }
+        return modelAndView;
+    }
 }

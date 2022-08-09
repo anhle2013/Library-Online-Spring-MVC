@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>List</title>
+    <title>Types</title>
     <th:block th:replace="/admin/layout/head :: head" />
 </head>
-<body class="animsition">
+<body class="animation">
 <div class="page-wrapper">
     <!-- HEADER MOBILE-->
     <th:block th:replace="/admin/layout/header_mobile :: header_mobile" />
@@ -23,119 +23,62 @@
             <div class="section__content section__content--p30">
                 <div class="container-fluid">
                     <div class="row">
-                        <form class="col-5">
-                            <div class="row">
-                                <div class="col-8">
-                                    <select class="form-control" name="type" id="type" onchange="unlockIdGroup()">
-                                        <option value="authors">Authors</option>
-                                        <option value="genres">Genres</option>
-                                        <option value="publishers">Publishers</option>
-                                    </select>
-                                </div>
-                                <div class="col-4">
-                                    <button type="submit" class="btn btn-outline-primary">Select</button>
-                                </div>
-                            </div>
-                        </form>
-
+                        <div class="col-6">
+                            <select class="form-control" name="bType" id="bType" oninput="selectType()" onchange="selectType()">
+                                <option value="authors">Authors</option>
+                                <option value="genres">Genres</option>
+                                <option value="publishers">Publishers</option>
+                            </select>
+                        </div>
                     </div>
                     <hr>
 
-                    <c:if test="${type == 'authors' or type == 'genres' or type == 'publishers' }">
-                        <div class="row">
-                            <h1>${fn:toUpperCase(type)}</h1>
-                        </div>
-                        <div class="row">
-                            <div class="col-5">
-                                <div class="info">
-                                    <table class="table table-hover">
-                                        <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <c:forEach items="${requestScope['list']}" var="item">
-                                            <tr>
-                                                <td>${item.getId()}</td>
-                                                <td>${item.getName()}</td>
-                                            </tr>
-                                        </c:forEach>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="col-7">
-                                <div class="book-form">
-                                    <form method="post">
-                                        <div class="row">
-                                            <div class="col-4">
-                                                <label for="action" class="form-label">Action</label>
-                                                <select class="form-control" name="action" id="action" onchange="unlockIdGroup()">
-                                                    <option value="add">Add New</option>
-                                                    <option value="edit">Edit</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-8" style="display: none" id="idGroup">
-                                                <%--                                                <form>--%>
-                                                <%--                                                    <label for="search" class="form-label">Name</label>--%>
-                                                <%--                                                    <div class="row">--%>
-                                                    <%--                                                        <div class="col-8">--%>
-                                                        <%--                                                            <input type="search" class="form-control" placeholder="Enter name" id="search" name="search">--%>
-                                                        <%--                                                        </div>--%>
-                                                    <%--                                                        <div class="col-4">--%>
-                                                        <%--                                                            <button type="submit" class="btn btn-outline-primary">Search</button>--%>
-                                                        <%--                                                        </div>--%>
-                                                    <%--                                                    </div>--%>
-                                                <%--                                                    <div class="row">--%>
-                                                    <%--                                                        <div class="col-12">--%>
-                                                        <%--                                                            <select class="form-control" name="id" id="id">--%>
-                                                            <%--                                                                <c:forEach items="${requestScope['searchList']}" var="item">--%>
-                                                                <%--                                                                    <option value="${item.getId()}">${item.getName()}</option>--%>
-                                                                <%--                                                                </c:forEach>--%>
-                                                            <%--                                                            </select>--%>
-                                                        <%--                                                        </div>--%>
-                                                    <%--                                                    </div>--%>
-                                                <%--                                                </form>--%>
+                    <div class="row">
+                        <h1 id="typeTitle"></h1>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="info">
+                                <table class="table table-hover" id="tbTypes">
+                                    <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Name</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
 
-                                                <label for="id" class="form-label">Name</label>
-                                                <select class="form-control" name="id" id="id">
-                                                    <c:forEach items="${requestScope['list']}" var="item">
-                                                        <option value="${item.getId()}">${item.getName()}</option>
-                                                    </c:forEach>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <label for="name" class="form-label">New Name *</label>
-                                                <input type="text" class="form-control" id="name" name="name" required>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <button type="submit" class="btn btn-outline-primary">Save</button>
-                                        </div>
-                                    </form>
-                                </div>
-
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                    </c:if>
-<!--                    <div class="footer">-->
-<!--                        <c:if test="${!requestScope['success'].isEmpty()}">-->
-<!--                            <ul class="success">-->
-<!--                                <li>${requestScope['success']}</li>-->
-<!--                            </ul>-->
-<!--                        </c:if>-->
-<!--                        <c:if test="${!requestScope['errors'].isEmpty()}">-->
-<!--                            <ul class="error">-->
-<!--                                <c:forEach items="${requestScope['errors']}" var="item">-->
-<!--                                    <li>${item}</li>-->
-<!--                                </c:forEach>-->
-<!--                            </ul>-->
-<!--                        </c:if>-->
-<!--                    </div>-->
+                        <div class="col-7">
+                            <div class="book-form">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <label for="action" class="form-label"><strong>Action</strong></label>
+                                        <select class="form-control" name="action" id="action" onchange="unlockIdGroup()">
+                                            <option value="add">Add New</option>
+                                            <option value="edit">Edit</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-8" style="display: none" id="idGroup">
+                                        <input type="text" class="form-control" placeholder="search" id="searchName">
+                                        <input id="result" readonly>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <label for="typeName" class="form-label"><strong>New Name</strong></label>
+                                        <input type="text" class="form-control" id="typeName" name="typeName" required>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <button type="button" class="btn btn-outline-primary" id="save">Save</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -143,8 +86,91 @@
         <!-- END PAGE CONTAINER-->
     </div>
 </div>
-<!-- js -->
-<th:block th:replace="/admin/layout/script :: js" />
 
+<th:block th:replace="/admin/types/temp_row_type :: temp_row_type" />
+
+<!-- js -->
+<th:block th:replace="/admin/layout/script :: script" />
+
+<script>
+    class BookType {
+        constructor(id, name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+    let bookType = new BookType();
+
+    let tempRowType = $.validator.format($.trim($('#tempRowType').val().toString()));
+
+    function addRowType() {
+        $('#tbTypes tbody').prepend($(tempRowType(bookType.id, bookType.name)));
+    }
+
+    function replaceRowType() {
+        $('#tr_' + bookType.id).replaceWith($(tempRowType(bookType.id, bookType.name)));
+    }
+    function selectType() {
+        let bookTypeText = $('#bType :selected').text();
+        let bookTypeValue = $('#bType').val();
+        $('#typeTitle').text(bookTypeText);
+
+        showTypeTable(bookTypeValue).then(() => {
+            updateData(bookTypeValue);
+        })
+    }
+
+    function updateData(bookTypeValue) {
+        let action = $('#action').val();
+        switch (action) {
+            case 'add':
+                $('#save').on('click', () => {
+                    bookType.name = $('#typeName').val();
+                    $.ajax({
+                        "headers": {
+                            "accept": "application/json",
+                            "content-type": "application/json"
+                        },
+                        "type": "POST",
+                        "url": "http://localhost:8080/api/types/create/" + bookTypeValue,
+                        "data": JSON.stringify(bookType)
+                    })
+                        .done((data) => {
+                            console.log(data);
+                        })
+                        .fail((jqXHR) => {
+                            console.log(jqXHR);
+                        })
+                })
+
+                break;
+            case 'edit':
+                break;
+            default:
+                App.SweetAlert.showErrorAlert('Invalid Action!');
+        }
+    }
+
+    function showTypeTable(bookTypeValue) {
+        return $.ajax({
+            "headers": {
+                "accept": "application/json",
+                "content-type": "application/json"
+            },
+            "type": "GET",
+            "url": "http://localhost:8080/api/types/" + bookTypeValue
+        })
+            .done((data) => {
+                $('#tbTypes tbody').html('');
+                $.each(data, (i, item) => {
+                    bookType = item;
+                    addRowType();
+                });
+            })
+            .fail((jqXHR) => {
+                console.log(jqXHR);
+            })
+    }
+</script>
 </body>
 </html>

@@ -1,11 +1,13 @@
 package com.cg.service.author;
 
 import com.cg.model.Author;
+import com.cg.model.dto.AuthorDTO;
 import com.cg.repository.IAuthorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,6 +23,11 @@ public class AuthorService implements IAuthorService {
     }
 
     @Override
+    public List<AuthorDTO> findAllDTO() {
+        return authorRepository.findAllDTO();
+    }
+
+    @Override
     public Optional<Author> findById(Long id) {
         return authorRepository.findById(id);
     }
@@ -28,6 +35,11 @@ public class AuthorService implements IAuthorService {
     @Override
     public Iterable<Author> findAllByNameContainingIgnoreCase(String name) {
         return authorRepository.findAllByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public Iterable<Author> findAllByName(String name) {
+        return authorRepository.findAllByName(name);
     }
 
     @Override

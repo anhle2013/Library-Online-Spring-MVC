@@ -18,4 +18,11 @@ public class HomeController {
         modelAndView.setViewName("/login");
         return modelAndView;
     }
+
+    @GetMapping("/register")
+    public ModelAndView showRegisterPage() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/register");
+        return modelAndView;
+    }
 }

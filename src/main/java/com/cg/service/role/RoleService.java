@@ -48,4 +48,9 @@ public class RoleService implements IRoleService {
     public Iterable<Role> findAllByNameContainingIgnoreCase(String name) {
         return null;
     }
+
+    @Override
+    public Iterable<Role> findAllByName(String name) {
+        return null;
+    }
 }

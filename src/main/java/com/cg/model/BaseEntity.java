@@ -36,6 +36,6 @@ public abstract class BaseEntity {
     private String updatedBy;
 
     @Column(columnDefinition = "boolean default true")
-    private boolean active;
+    private boolean active = true;
 
 }

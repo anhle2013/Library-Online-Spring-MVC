@@ -1,12 +1,12 @@
 package com.cg.model;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
+@Accessors(chain = true)
 public class CallCardDetail{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +38,13 @@ public class CallCardDetail{
     private LocalDateTime takenDate;
 
     @Column(name = "maturity_date")
-    private LocalDateTime maturityDate = takenDate.plusSeconds(30);
+    private LocalDateTime maturityDate;
 
-    @UpdateTimestamp
     @Column(name = "return_date")
     private LocalDateTime returnDate;
 
-    private BorrowStatus status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "borrow_status", length = 25)
+    private EBorrowStatus borrowStatus;
+
 }

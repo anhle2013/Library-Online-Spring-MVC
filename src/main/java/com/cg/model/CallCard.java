@@ -1,12 +1,11 @@
 package com.cg.model;
 
+import com.cg.model.dto.CallCardDTO;
 import lombok.*;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name = "call_cards")
@@ -14,19 +13,33 @@ import java.util.Map;
 @AllArgsConstructor
 @Getter
 @Setter
+@Accessors(chain = true)
 public class CallCard extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToMany(mappedBy = "callCard")
-    private Collection<CallCardDetail> callCardDetails;
+    private Set<CallCardDetail> callCardDetails;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Override
+    public String toString() {
+        return "CallCard{" +
+                "id=" + id +
+                ", user=" + user.getId() +
+                '}';
+    }
+
+//    public CallCardDTO toCallCardDTO() {
+//        return new CallCardDTO()
+//                .setId(id)
+//                .setUserId(user.getId())
+//                .setCallCardDetails(callCardDetails);
+//    }
 //
 //    private boolean checkItem(Book book){
 //        for (Map.Entry<Book, Integer> entry : books.entrySet())

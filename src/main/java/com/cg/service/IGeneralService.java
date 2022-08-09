@@ -8,6 +8,8 @@ public interface IGeneralService<T> {
 
     Iterable<T> findAllByNameContainingIgnoreCase(String name);
 
+    Iterable<T> findAllByName(String name);
+
     Optional<T> findById(Long id);
 
     T getById(Long id);

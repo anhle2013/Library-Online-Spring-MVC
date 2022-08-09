@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <title>List</title>
+    <title>Books</title>
     <th:block th:replace="/admin/layout/head :: head" />
 </head>
-<body class="animsition">
+<body class="animation">
 <div class="page-wrapper">
     <!-- HEADER MOBILE-->
     <th:block th:replace="/admin/layout/header_mobile :: header_mobile" />
@@ -106,5 +106,16 @@
 <!-- js -->
 <th:block th:replace="/admin/layout/script :: script" />
 
+<script>
+    function blockInputSearch() {
+        let select = document.getElementById('field_name');
+        let option = select.options[select.selectedIndex].value;
+        if (option === "disable") {
+            document.getElementById('q').value = "disable";
+            document.getElementById('q').disabled = true;
+        } else
+            document.getElementById('q').disabled = false;
+    }
+</script>
 </body>
 </html>

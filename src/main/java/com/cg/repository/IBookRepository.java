@@ -33,6 +33,8 @@ public interface IBookRepository extends PagingAndSortingRepository<Book, Long> 
 
     Iterable<Book> findAllByNameContainingIgnoreCase(String name);
 
+    Iterable<Book> findAllByName(String name);
+
     Iterable<Book> findByAuthor(Author author);
 
     Iterable<Book> findByGenre(Genre genre);

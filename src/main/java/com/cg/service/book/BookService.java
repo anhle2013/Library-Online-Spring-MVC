@@ -40,6 +40,11 @@ public class BookService implements IBookService{
     }
 
     @Override
+    public Iterable<Book> findAllByName(String name) {
+        return bookRepository.findAllByName(name);
+    }
+
+    @Override
     public Iterable<Book> findByAuthor(Author author) {
         return bookRepository.findByAuthor(author);
     }
